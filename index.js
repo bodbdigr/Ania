@@ -7,7 +7,7 @@ function delay(time) {
 }
 
 async function run() {
-  const browser = await puppeteer.launch({ headless: false, waitUntil: 'load' });
+  const browser = await puppeteer.launch({ headless: false, waitUntil: 'load', args: ['--no-sandbox'] });
   const page = await browser.newPage();
 
   await page.setViewport({
@@ -23,7 +23,7 @@ async function run() {
   await page.type('input[name="login"]', '18320501576');
   await page.type('input[name="haslo"]', 'Nowehaslo1.');
 
-  await delay(500);
+  await delay(1000);
 
   await page.click('button[name="submitLogin"]');
   await page.waitForNavigation();
@@ -43,10 +43,10 @@ async function run() {
       window.scrollTo(0, document.body.scrollHeight);
     });
 
-    dateAv = await page.$('.datepicker-days td.active');
+    dateAv = await page.$('.datepicker-days td.active:not(.disabled)');
 
     if (dateAv) {
-      console.log('HERE');
+      console.log('HERE', dateAv);
       break;
     }
 
